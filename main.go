@@ -1,24 +1,24 @@
 package main
 
 import (
-//	"bufio"
+	"bufio"
 	"context"
 	"fmt"
 	"log"
-//	"os"
+	"os"
 	"time"
 )
 
 func main() {
 	ctx := context.Background()
-	ctx, cancel := context.WithTimeout(ctx, time.Second)
-//	ctx, cancel := context.WithCancel(ctx)
+	ctx, cancel := context.WithCancel(ctx)
 
-	time.AfterFunc(time.Second, cancel)
-//	go func() {
-//		time.Sleep(time.Second)
-//		cancel()
-//	}()
+	go func() {
+		in := bufio.NewScanner(os.Stdin)
+		in.Scan()
+		fmt.Printf("cancelling value (just to check): %s\n", in.Text())
+		cancel()
+	}()
 
 	mySleepAndTalk(ctx, 5 * time.Second, "Howdy Folks")
 }
