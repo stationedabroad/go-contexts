@@ -1,11 +1,11 @@
 package main
 
 import (
-	"bufio"
+//	"bufio"
 	"context"
 	"fmt"
 	"log"
-	"os"
+//	"os"
 	"time"
 )
 
@@ -14,9 +14,7 @@ func main() {
 	ctx, cancel := context.WithCancel(ctx)
 
 	go func() {
-		in := bufio.NewScanner(os.Stdin)
-		in.Scan()
-		fmt.Printf("cancelling value (just to check): %s\n", in.Text())
+		time.Sleep(time.Second)
 		cancel()
 	}()
 
