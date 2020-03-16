@@ -11,14 +11,13 @@ import (
 
 func main() {
 	ctx := context.Background()
-	ctx, cancel := context.WithCancel(ctx)
+	ctx, cancel := context.WithTimeout(ctx, time.Second)
+	defer cancel()
 
-	time.AfterFunc(time.Second, cancel)
-
-	mySleepAndTalk(ctx, 5 * time.Second, "Howdy Folks")
+	pauseAndPrint(ctx, 5 * time.Second, "Howdy Folks")
 }
 
-func mySleepAndTalk(ctx context.Context, d time.Duration, msg string) {
+func pauseAndPrint(ctx context.Context, d time.Duration, msg string) {
 	select {
 	case <-time.After(d):
 		fmt.Println(msg)
