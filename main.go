@@ -13,10 +13,7 @@ func main() {
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 
-	go func() {
-		time.Sleep(time.Second)
-		cancel()
-	}()
+	time.AfterFunc(time.Second, cancel)
 
 	mySleepAndTalk(ctx, 5 * time.Second, "Howdy Folks")
 }
