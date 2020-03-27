@@ -1,18 +1,14 @@
 package main
 
 import (
-//	"bufio"
 	"context"
 	"fmt"
 	"log"
-//	"os"
 	"time"
 )
 
 func main() {
 	ctx := context.Background()
-//	ctx, cancel := context.WithTimeout(ctx, time.Second)
-//	defer cancel()
 
 	pauseAndPrint(ctx, 5 * time.Second, "Howdy Folks")
 }
