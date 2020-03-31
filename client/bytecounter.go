@@ -8,6 +8,8 @@ import (
 const input = `Now is the winter of our discontent,
 			   Made glorious summer by this sun of York.
 			   Now is the winter of our discontent,
+			   Made glorious summer by this sun of York.
+			   Now is the winter of our discontent,
 			   Made glorious summer by this sun of York.`
 
 
@@ -32,7 +34,14 @@ func (w *WordCounter) Write(p []byte) (int, error) {
 }
 
 func (l *LineCounter) Write(p []byte) (int, error) {
-	return 1, nil
+	count := 0
+	for line := 0; line < len(p); {
+		adv, _, _ := bufio.ScanLines(p[line:], line != len(p))
+		line += adv
+		count++
+	}
+	*l += LineCounter(count)
+	return count, nil
 }
 
 func main() {
@@ -43,4 +52,8 @@ func main() {
 	var x WordCounter
 	wordCount, _ := x.Write([]byte(input))
 	fmt.Printf("word count for sentence :%d\nand w value :%v\n", wordCount, x)
+
+	var y LineCounter
+	lineCount, _ := y.Write([]byte(input))
+	fmt.Printf("line count for sentence :%d\nand l value :%v\n", lineCount, y)
 }
