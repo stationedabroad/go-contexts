@@ -10,6 +10,7 @@ const input = `Now is the winter of our discontent,
 			   Now is the winter of our discontent,
 			   Made glorious summer by this sun of York.`
 
+
 type ByteCounter int
 type WordCounter int
 type LineCounter int
@@ -21,13 +22,17 @@ func (c *ByteCounter) Write(p []byte) (int, error) {
 
 func (w *WordCounter) Write(p []byte) (int, error) {
 	count := 0
-	for step := 0; step < len(p); {
-		adv, _, _ := bufio.ScanWords(p[step:], step != len(p))
-		step += adv
+	for word := 0; word < len(p); {
+		adv, _, _ := bufio.ScanWords(p[word:], word != len(p))
+		word += adv
 		count++
 	}
 	*w += WordCounter(count)
 	return count, nil
+}
+
+func (l *LineCounter) Write(p []byte) (int, error) {
+	return 1, nil
 }
 
 func main() {
