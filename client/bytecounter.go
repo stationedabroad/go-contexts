@@ -1,8 +1,10 @@
 package main
 
 import (
-	"fmt"
+	"bytes"
 	"bufio"
+	"fmt"
+	"io"
 )
 
 const input = `Now is the winter of our discontent,
@@ -44,6 +46,13 @@ func (l *LineCounter) Write(p []byte) (int, error) {
 	return count, nil
 }
 
+func CountingWriter(w io.Writer) (io.Writer, int64) {
+	var bytesWritten int64
+	var buf bytes.Buffer	
+	bytesWritten, _ = buf.WriteTo(w)
+	return &buf, bytesWritten
+}
+
 func main() {
 	n := ByteCounter(10)
 	l, _ := n.Write([]byte{110, 2})
@@ -54,6 +63,13 @@ func main() {
 	fmt.Printf("word count for sentence :%d\nand w value :%v\n", wordCount, x)
 
 	var y LineCounter
-	lineCount, _ := y.Write([]byte(input))
-	fmt.Printf("line count for sentence :%d\nand l value :%v\n", lineCount, y)
+	// lineCount, _ := y.Write([]byte(input))
+	// fmt.Printf("line count for sentence :%d\nand l value :%v\n", lineCount, y)
+
+	fmt.Fprintf(&y, "%d", input)
+	fmt.Println(y)
+
+	// var z LineCounter
+	wWriter, wwBytes := CountingWriter(&y)
+	fmt.Printf("type: %T and type %T\n%v", wWriter, wwBytes)
 }
