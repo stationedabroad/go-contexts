@@ -9,18 +9,16 @@ import (
 var wg sync.WaitGroup
 
 func main() {
-	wg.Add(1024)
 	for i := 1; i <= 1024; i++ {
-		go dialHost(fmt.Sprintf("scanme.nmap.org:%d", i), &wg)
+		wg.Add(1)
+		go func(port int) {
+			defer wg.Done()
+			conn, err := net.Dial("tcp", fmt.Sprintf("scanme.nmap.org:%d", port))
+			if err == nil {
+				fmt.Printf("Open port: %d\n", port)
+				conn.Close()
+			}
+		}(i)
 	}
 	wg.Wait()
-}
-
-func dialHost(add string, wg *sync.WaitGroup) {
-	defer wg.Done()
-	conn, err := net.Dial("tcp", add)
-	if err == nil {
-		fmt.Printf("Open host/port: %s\n", add)
-		conn.Close()
-	}
 }
