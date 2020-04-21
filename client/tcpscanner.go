@@ -13,7 +13,7 @@ func main() {
 		wg.Add(1)
 		go func(port int) {
 			defer wg.Done()
-			conn, err := net.Dial("tcp", fmt.Sprintf("scanme.nmap.org:%d", port))
+			conn, err := net.Dial("tcp", fmt.Sprintf("guardian.co.uk:%d", port))
 			if err == nil {
 				fmt.Printf("Open port: %d\n", port)
 				conn.Close()
