@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"net/http"
 	"time"
-// custom log added
+
 	"workspace/tmp/contexts/log"
 )
 
+// Context passing in http call
 func main() {
 	http.HandleFunc("/", log.Decorate(handler))
 	panic(http.ListenAndServe(":8002", nil))
