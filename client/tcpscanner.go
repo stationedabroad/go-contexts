@@ -7,9 +7,12 @@ import (
 )
 
 var wg sync.WaitGroup
+const(
+	calls = 1024
+)
 
 func main() {
-	for i := 1; i <= 1024; i++ {
+	for i := 1; i <= calls; i++ {
 		wg.Add(1)
 		go func(port int) {
 			defer wg.Done()
